@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <C:/Program Files (x86)/Graphviz2.38/include/graphviz/gvc.h>
+#include <C:/Program Files (x86)/Graphviz2.38/include/graphviz/cgraph.h>
 #include "grafo.h"
 
 //------------------------------------------------------------------------------
@@ -8,7 +10,11 @@
 // 
 // o grafo tem um nome, que é uma "string"
 
-struct grafo {};
+struct grafo {
+  char* nome;
+  char dir;
+  lista* l;
+};
 
 //------------------------------------------------------------------------------
 // desaloca toda a memória usada em *g
@@ -29,8 +35,11 @@ int destroi_grafo(grafo g) {
 //         NULL, em caso de erro 
 
 grafo le_grafo(FILE *input) {
+  printf("vai ler");
+  Agraph_t* G = agread(input, 0);
+  printf("leu");
   
-  return 0;
+  return NULL;
 }
 //------------------------------------------------------------------------------
 // escreve o grafo g em output usando o formato dot.
@@ -40,8 +49,8 @@ grafo le_grafo(FILE *input) {
 //         NULL, em caso de erro 
 
 grafo escreve_grafo(FILE *output, grafo g) {
-  
-  return g;
+  // agwrite(g,output);
+  return NULL;
 }
 //------------------------------------------------------------------------------
 // devolve o grafo de recomendações de g

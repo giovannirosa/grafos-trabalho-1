@@ -1,0 +1,20 @@
+graph {
+    splines=line;
+    subgraph cluster_0 {
+        label="Consumidores";
+        a; b; c
+    }
+
+    subgraph cluster_1 {
+        label="Produtos";
+        1; 2; 3; 4
+    }
+
+    a -- 1;
+    a -- 4;
+    b -- 2;
+    b -- 3;
+    b -- 4;
+    c -- 1;
+    c -- 3;
+}
