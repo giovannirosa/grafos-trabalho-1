@@ -10,17 +10,6 @@
 
 typedef struct grafo *grafo;
 
-typedef struct Noh {
-	char chave;
-	struct Noh *prox, *ant;
-}noh;
-
-typedef struct Lista {
-	noh *comec, *fim;
-	int tam;
-
-}lista;
-
 //------------------------------------------------------------------------------
 // desaloca toda a memória usada em *g
 // 

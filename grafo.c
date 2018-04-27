@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "grafo.h"
+#include "lista.h"
 #include <graphviz/cgraph.h>
 
 //------------------------------------------------------------------------------
