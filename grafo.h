@@ -11,14 +11,11 @@
 typedef struct grafo *grafo;
 
 typedef struct Noh {
-
-	int chave;
+	char chave;
 	struct Noh *prox, *ant;
-
 }noh;
 
 typedef struct Lista {
-
 	noh *comec, *fim;
 	int tam;
 

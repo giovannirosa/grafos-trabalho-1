@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include <C:/Program Files (x86)/Graphviz2.38/include/graphviz/gvc.h>
-#include <C:/Program Files (x86)/Graphviz2.38/include/graphviz/cgraph.h>
 #include "grafo.h"
+#include <graphviz/cgraph.h>
 
 //------------------------------------------------------------------------------
 // (apontador para) estrutura de dados para representar um grafo
@@ -36,7 +35,7 @@ int destroi_grafo(grafo g) {
 
 grafo le_grafo(FILE *input) {
   printf("vai ler");
-  Agraph_t* G = agread(input, 0);
+  Agraph_t* G = agread(input, NULL);
   printf("leu");
   
   return NULL;
