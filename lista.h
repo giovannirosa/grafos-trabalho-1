@@ -10,7 +10,7 @@ typedef struct noh *noh;
 typedef struct lista *lista;
 
 // inicia lista alocando memória e iniciando parâmetros
-lista iniciaLista();
+lista iniciaLista(void);
 
 // libera lista da memória, um nó de cada vez, então a lista
 void liberaLista(lista l);

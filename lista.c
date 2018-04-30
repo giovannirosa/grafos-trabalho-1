@@ -11,11 +11,11 @@ struct noh {
 // lista com inicio, fim e tamanho
 struct lista {
 	struct noh *ini, *fim;
-	int tam;
+	long tam;
 };
 
 // inicia lista alocando memória e iniciando parâmetros
-lista iniciaLista() {
+lista iniciaLista(void) {
   lista l = malloc(sizeof(struct lista));
 
   l->tam = 0;

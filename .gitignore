@@ -2,3 +2,5 @@
 .vscode/settings.json
 teste.exe
 simple.exe
+*.o
+teste
