@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "lista.h"
 
 // nó da lista com conteudo, proximo e anterior
@@ -9,7 +10,7 @@ struct noh {
 
 // lista com inicio, fim e tamanho
 struct lista {
-	noh *ini, *fim;
+	struct noh *ini, *fim;
 	int tam;
 };
 
@@ -27,7 +28,7 @@ lista iniciaLista() {
 // libera lista da memória, um nó de cada vez, então a lista
 void liberaLista(lista l) { 
   noh aux;
-  while(aux = l->fim) {
+  while((aux = l->fim)) {
     l->fim = l->fim->ant;
     free(aux);
   }
@@ -51,7 +52,7 @@ void removeLista(lista l) {
   noh aux = l->fim;
 
   l->tam--;
-  l->fim = l->fim->ant;
+  l->fim = (l->fim)->ant;
   l->fim->prox = NULL;
   free(aux);
 }
