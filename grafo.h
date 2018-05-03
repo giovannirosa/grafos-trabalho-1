@@ -10,6 +10,8 @@
 
 typedef struct grafo *grafo;
 
+void imprimeGrafo(grafo g);
+
 //------------------------------------------------------------------------------
 // desaloca toda a memória usada em *g
 // 

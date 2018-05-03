@@ -1,4 +1,4 @@
-graph {
+graph vendas {
     splines=line;
     subgraph cluster_0 {
         label="Consumidores";

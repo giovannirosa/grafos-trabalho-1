@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "grafo.h"
 #include "lista.h"
 #include <graphviz/cgraph.h>
@@ -13,7 +14,28 @@
 struct grafo {
   char* nome;
   int dir;
-  lista* vert;
+  int peso;
+  lista vert;
+  int v;
+  int a;
+};
+
+//------------------------------------------------------------------------------
+// vertice com identificador de consumidor/produto, nome, vizinhos e grau
+
+struct vert {
+  char id;
+	char *nome;
+	lista vizinhos;	
+	int grau;
+};
+
+//------------------------------------------------------------------------------
+// aresta com os dois vertices e um peso.
+
+struct aresta {
+	struct vert* vertice;
+	int peso;
 };
 
 //------------------------------------------------------------------------------
@@ -35,12 +57,45 @@ int destroi_grafo(grafo g) {
 //         NULL, em caso de erro 
 
 grafo le_grafo(FILE *input) {
-  printf("vai ler");
-  Agraph_t* G = agread(input, NULL);
-  printf("leu");
-  
-  return NULL;
+  printf("Lendo grafo do arquivo...\n");
+  Agraph_t *g;
+	Agedge_t *a;
+	Agnode_t *v;
+
+
+	//------area de testes---------
+	// struct vertice *vert;
+	// lista vizinhos;
+	//------final area de testes ------
+
+  grafo gr = malloc(sizeof(struct grafo));
+	g = agread(input, NULL);
+	gr->nome = agnameof(g);
+	gr->dir = agisdirected(g);	 
+	gr->v = agnnodes(g);
+	gr->a = agnedges(g);
+	// grafo->vert = constroi_lista();
+  imprimeGrafo(gr);
+
+	//adiciona todos os vertices lidos do arquivo dot
+	//para a nossa estrutura
+	// adiciona_vertices(g, grafo);
+
+	//adiciona todas as arestas de entrada e saida de cada vertice
+	//em suas respectivas listas
+	// graf->ponderado = adiciona_arestas(g, grafo);
+
+	agclose(g);
+
+  printf("Grafo lido.\n");
+
+	return gr;
 }
+
+void imprimeGrafo(grafo g) {
+  printf("Nome: %s | Dir: %d | Vert: %d | Arest: %d\n", g->nome, g->dir, g->v, g->a);
+}
+
 //------------------------------------------------------------------------------
 // escreve o grafo g em output usando o formato dot.
 //
