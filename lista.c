@@ -5,12 +5,12 @@
 // nó da lista com conteudo, proximo e anterior
 struct noh {
 	void *cont;
-	struct noh *prox, *ant;
+	noh prox, ant;
 };
 
 // lista com inicio, fim e tamanho
 struct lista {
-	struct noh *ini, *fim;
+	noh ini, fim;
 	long tam;
 };
 
@@ -38,6 +38,7 @@ void liberaLista(lista l) {
 // insere nó com conteúdo passado no final da lista
 noh insereLista(lista l, void *cont) {
   noh aux = malloc(sizeof(struct noh));
+  printf("Aloca noh\n");
 
   l->tam++;
   aux->cont = cont;

@@ -23,20 +23,27 @@ struct grafo {
 //------------------------------------------------------------------------------
 // vertice com identificador de consumidor/produto, nome, vizinhos e grau
 
-struct vert {
-  char id;
-	char *nome;
+struct vertice {
+	char* nome;
 	lista vizinhos;	
-	int grau;
+	long grau;
 };
 
 //------------------------------------------------------------------------------
-// aresta com os dois vertices e um peso.
+// aresta com os dois vertices e um peso = recomendações
 
 struct aresta {
-	struct vert* vertice;
-	int peso;
+	vertice vert;
+	long peso;
 };
+
+//------------------------------------------------------------------------------
+// imprime o grafo com seus parâmetros e informações relevantes
+// usado para testes
+
+void imprimeGrafo(grafo g) {
+  printf("Nome: %s | Dir: %d | Vert: %d | Arest: %d\n", g->nome, g->dir, g->v, g->a);
+}
 
 //------------------------------------------------------------------------------
 // desaloca toda a memória usada em *g
@@ -46,9 +53,10 @@ struct aresta {
 //         0, caso contrário
 
 int destroi_grafo(grafo g) {
-  
+
   return 0;
 }
+
 //------------------------------------------------------------------------------
 // lê um grafo no formato dot de input
 // 
@@ -58,23 +66,16 @@ int destroi_grafo(grafo g) {
 
 grafo le_grafo(FILE *input) {
   printf("Lendo grafo do arquivo...\n");
-  Agraph_t *g;
-	Agedge_t *a;
-	Agnode_t *v;
-
-
-	//------area de testes---------
-	// struct vertice *vert;
-	// lista vizinhos;
-	//------final area de testes ------
+  Agraph_t *g = NULL;
 
   grafo gr = malloc(sizeof(struct grafo));
+	printf("Aloca grafo\n");
 	g = agread(input, NULL);
 	gr->nome = agnameof(g);
 	gr->dir = agisdirected(g);	 
 	gr->v = agnnodes(g);
 	gr->a = agnedges(g);
-	// grafo->vert = constroi_lista();
+	insereVert(g,gr);
   imprimeGrafo(gr);
 
 	//adiciona todos os vertices lidos do arquivo dot
@@ -92,9 +93,47 @@ grafo le_grafo(FILE *input) {
 	return gr;
 }
 
-void imprimeGrafo(grafo g) {
-  printf("Nome: %s | Dir: %d | Vert: %d | Arest: %d\n", g->nome, g->dir, g->v, g->a);
+//------------------------------------------------------------------------------
+// insere os vertices ao grafo
+
+void insereVert(Agraph_t *g, grafo gr) {
+	Agnode_t *v = NULL;
+	vertice vert = NULL;
+
+  for(v = agfstnode(g); v; v = agnxtnode(g,v)){	        	
+      vert = malloc(sizeof(struct vertice));
+			printf("Aloca vertice\n");
+			vert->nome = agnameof(v);
+
+			// Agedge_t *a = NULL;
+			// int peso = 0;
+			// aresta *ares = NULL;
+			// for(a = agfstedge(g,v); a; a = agnxtedge(g,a,v)) {
+
+			// 	ares = (struct aresta*) malloc(sizeof(struct aresta));
+			// 	ares->vertice = vert;
+
+			// 	insereLista(ares, vert_aux->arestas_in);				
+
+			// 	vert_aux->grau_in += 1;				
+
+
+			// }
+
+
+
+
+
+			insereLista(gr->vert, vert);								
+	}
 }
+
+//------------------------------------------------------------------------------
+// constrói a vizinhança dos vertices
+
+// void constroiViz(void) {
+
+// }
 
 //------------------------------------------------------------------------------
 // escreve o grafo g em output usando o formato dot.

@@ -7,7 +7,7 @@ void copy_stdin2stdout();
 
 int main(void) {
   // copy_stdin2stdout();
-  grafo g = le_grafo(stdin);
+  grafo *g = le_grafo(stdin);
 
   if ( !g )
 

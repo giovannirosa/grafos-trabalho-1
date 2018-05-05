@@ -2,6 +2,7 @@
 #define _GRAFO_H
 
 #include <stdio.h>
+#include <graphviz/cgraph.h>
 
 //------------------------------------------------------------------------------
 // (apontador para) estrutura de dados para representar um grafo
@@ -9,8 +10,11 @@
 // o grafo tem um nome, que é uma "string"
 
 typedef struct grafo *grafo;
+typedef struct vertice *vertice;
+typedef struct aresta *aresta;
 
 void imprimeGrafo(grafo g);
+void insereVert(Agraph_t *g, grafo gr);
 
 //------------------------------------------------------------------------------
 // desaloca toda a memória usada em *g
