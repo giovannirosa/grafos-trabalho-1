@@ -99,31 +99,13 @@ grafo le_grafo(FILE *input) {
 void insereVert(Agraph_t *g, grafo gr) {
 	Agnode_t *v = NULL;
 	vertice vert = NULL;
+	gr->vert = iniciaLista();
 
   for(v = agfstnode(g); v; v = agnxtnode(g,v)){	        	
       vert = malloc(sizeof(struct vertice));
-			printf("Aloca vertice\n");
 			vert->nome = agnameof(v);
-
-			// Agedge_t *a = NULL;
-			// int peso = 0;
-			// aresta *ares = NULL;
-			// for(a = agfstedge(g,v); a; a = agnxtedge(g,a,v)) {
-
-			// 	ares = (struct aresta*) malloc(sizeof(struct aresta));
-			// 	ares->vertice = vert;
-
-			// 	insereLista(ares, vert_aux->arestas_in);				
-
-			// 	vert_aux->grau_in += 1;				
-
-
-			// }
-
-
-
-
-
+			vert->grau = agcountuniqedges(g,v,1,1);
+			printf("Aloca vertice: %s com grau: %ld\n", vert->nome, vert->grau);
 			insereLista(gr->vert, vert);								
 	}
 }
@@ -131,9 +113,19 @@ void insereVert(Agraph_t *g, grafo gr) {
 //------------------------------------------------------------------------------
 // constrói a vizinhança dos vertices
 
-// void constroiViz(void) {
+void constroiViz(Agraph_t *g, grafo gr) {
+	Agedge_t *a = NULL;
+	aresta *ares = NULL;
 
-// }
+	for (a = agfstedge(g, v); a; a = agnxtedge(g, a, v)) {
+		ares = (struct aresta *)malloc(sizeof(struct aresta));
+		ares->vertice = vert;
+
+		insereLista(ares, vert->arestas);
+
+		vert_aux->grau_in += 1;
+	}
+}
 
 //------------------------------------------------------------------------------
 // escreve o grafo g em output usando o formato dot.
