@@ -21,10 +21,11 @@ struct grafo {
 };
 
 //------------------------------------------------------------------------------
-// vertice com identificador de consumidor/produto, nome, vizinhos e grau
+// vertice com identificador de tipo=consumidor/produto, nome, vizinhos e grau
 
 struct vertice {
 	char* nome;
+	char tipo;
 	lista vizinhos;	
 	long grau;
 };
@@ -101,12 +102,20 @@ void insereVert(Agraph_t *g, grafo gr) {
 	vertice vert = NULL;
 	gr->vert = iniciaLista();
 
+	printf("------------------------------------------\n");
   for(v = agfstnode(g); v; v = agnxtnode(g,v)){	        	
       vert = malloc(sizeof(struct vertice));
 			vert->nome = agnameof(v);
 			vert->grau = agcountuniqedges(g,v,1,1);
-			printf("Aloca vertice: %s com grau: %ld\n", vert->nome, vert->grau);
-			insereLista(gr->vert, vert);								
+			vert->tipo = vert->nome[0];
+			vert->vizinhos = iniciaLista();
+
+			
+
+
+			printf("Aloca vertice: %s com grau: %ld do tipo: %c\n", vert->nome, vert->grau, vert->tipo);
+			insereLista(gr->vert, vert);			
+			printf("------------------------------------------\n");					
 	}
 }
 
@@ -115,15 +124,19 @@ void insereVert(Agraph_t *g, grafo gr) {
 
 void constroiViz(Agraph_t *g, grafo gr) {
 	Agedge_t *a = NULL;
-	aresta *ares = NULL;
-
 	for (a = agfstedge(g, v); a; a = agnxtedge(g, a, v)) {
-		ares = (struct aresta *)malloc(sizeof(struct aresta));
-		ares->vertice = vert;
+		Agnode_t *tail = NULL;
+		Agnode_t *head = NULL;
 
-		insereLista(ares, vert->arestas);
+		tail = agtail(a);
+		head = aghead(a);
 
-		vert_aux->grau_in += 1;
+		char *nome = agnameof(tail);
+		if (nome[0] == 'c') {
+			vertice aux = procuraLista(gr->vert,nome);
+		}
+
+		printf("%s -> %s\n", agnameof(tail), agnameof(head));
 	}
 }
 

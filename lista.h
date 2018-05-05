@@ -21,4 +21,7 @@ noh insereLista(lista l, void *cont);
 // remove nó do final da lista
 void removeLista(lista l);
 
+// procura lista pelo conteudo e retorna o noh ou NULL se nao encontrar
+noh procuraLista(lista l, void* p);
+
 #endif

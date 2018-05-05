@@ -58,3 +58,15 @@ void removeLista(lista l) {
   l->fim->prox = NULL;
   free(aux);
 }
+
+// procura lista pelo conteudo e retorna o noh ou NULL se nao encontrar
+noh procuraLista(lista l, void* p) {
+  noh aux = l->ini;
+  while(aux) {
+    if (aux->cont == p)
+      return aux;
+    
+    aux = aux->prox;
+  }
+  return NULL;
+}
