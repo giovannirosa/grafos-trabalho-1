@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <graphviz/cgraph.h>
+#include "lista.h"
 
 //------------------------------------------------------------------------------
 // (apontador para) estrutura de dados para representar um grafo
@@ -14,7 +15,14 @@ typedef struct vertice *vertice;
 typedef struct aresta *aresta;
 
 void imprimeGrafo(grafo g);
+noh imprimeVert(noh aux,int ares);
+noh imprimeAres(noh aux);
 void insereVert(Agraph_t *g, grafo gr);
+vertice procuraLista(lista l, char *p);
+void constroiViz(Agraph_t *g, grafo gr);
+int comparaViz(grafo g, vertice c1, vertice c2);
+int contemVert(noh aux, vertice v);
+lista encontraDif(vertice c1, vertice c2);
 
 //------------------------------------------------------------------------------
 // desaloca toda a memória usada em *g
