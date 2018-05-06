@@ -41,7 +41,7 @@ CFLAGS  = -std=c99 \
 #------------------------------------------------------------------------------
 all : teste
 
-teste : teste.o grafo.o lista.o
+teste : teste.o recomenda.o grafo.o lista.o
 	$(CC) $(CFLAGS) -o $@ $^ -l cgraph
 
 #------------------------------------------------------------------------------

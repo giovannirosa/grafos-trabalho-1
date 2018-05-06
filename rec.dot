@@ -1,0 +1,96 @@
+Lendo grafo do arquivo...
+------------------------------------------
+Aloca vertice: c1 com grau: 3 do tipo: c
+------------------------------------------
+Aloca vertice: c2 com grau: 2 do tipo: c
+------------------------------------------
+Aloca vertice: c3 com grau: 1 do tipo: c
+------------------------------------------
+Aloca vertice: pa com grau: 1 do tipo: p
+------------------------------------------
+Aloca vertice: pb com grau: 3 do tipo: p
+------------------------------------------
+Aloca vertice: pc com grau: 2 do tipo: p
+------------------------------------------
+------------------------------------------
+Construindo vizinhança do c1
+Inseriu aresta: c1 -> pa
+Inseriu aresta: c1 -> pb
+Inseriu aresta: c1 -> pc
+------------------------------------------
+Construindo vizinhança do c2
+Inseriu aresta: c2 -> pb
+Inseriu aresta: c2 -> pc
+------------------------------------------
+Construindo vizinhança do c3
+Inseriu aresta: c3 -> pb
+------------------------------------------
+Construindo vizinhança do pa
+Inseriu aresta: pa -> c1
+------------------------------------------
+Construindo vizinhança do pb
+Inseriu aresta: pb -> c1
+Inseriu aresta: pb -> c2
+Inseriu aresta: pb -> c3
+------------------------------------------
+Construindo vizinhança do pc
+Inseriu aresta: pc -> c1
+Inseriu aresta: pc -> c2
+------------------------------------------
+Nome: A | Dir: 0 | Vert: 6 | Arest: 6
+c1->pa(1)->pb(1)->pc(1)->
+c2->pb(1)->pc(1)->
+c3->pb(1)->
+pa->c1(1)->
+pb->c1(1)->c2(1)->c3(1)->
+pc->c1(1)->c2(1)->
+------------------------------------------
+Grafo lido.
+------------------------------------------
+Aloca vertice: c1 com grau: 3 do tipo: c
+------------------------------------------
+Aloca vertice: c2 com grau: 2 do tipo: c
+------------------------------------------
+Aloca vertice: c3 com grau: 1 do tipo: c
+------------------------------------------
+Aloca vertice: pa com grau: 1 do tipo: p
+------------------------------------------
+Aloca vertice: pb com grau: 3 do tipo: p
+------------------------------------------
+Aloca vertice: pc com grau: 2 do tipo: p
+------------------------------------------
+------------------------------------------
+Intersec de c1 com c2: 2
+Dif de c1 com c2: 1
+pa->
+------------------------------------------
+Intersec de c1 com c3: 1
+Dif de c1 com c3: 2
+------------------------------------------
+Intersec de c2 com c1: 2
+Dif de c2 com c1: 0
+------------------------------------------
+Intersec de c2 com c3: 1
+Dif de c2 com c3: 1
+pc->
+------------------------------------------
+Intersec de c3 com c1: 1
+Dif de c3 com c1: 0
+------------------------------------------
+Intersec de c3 com c2: 1
+Dif de c3 com c2: 0
+graph recomendacoes {
+	c1;
+	c2 -- pa [key=e28];
+c3 -- c2 [key=e28];
+pb;
+}
+------------------------------------------
+Nome: recomendacoes | Dir: 0 | Vert: 6 | Arest: 2
+c1->
+c2->pa(1)->
+c3->c2(1)->
+pa->
+pb->
+c2->
+------------------------------------------

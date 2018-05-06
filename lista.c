@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stddef.h>
 #include "lista.h"
 
 // inicia lista alocando memória e iniciando parâmetros

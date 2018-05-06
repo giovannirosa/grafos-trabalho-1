@@ -2,6 +2,8 @@
 #define _LISTA_H
 
 #include <stdio.h>
+#include <stdlib.h>
+#include <stddef.h>
 
 // declara nó da lista
 typedef struct noh *noh;

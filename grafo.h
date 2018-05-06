@@ -1,9 +1,11 @@
-#ifndef _GRAFO_H
-#define _GRAFO_H
+#ifndef GRAFO_H
+#define GRAFO_H
 
-#include <stdio.h>
+#include <string.h>
 #include <graphviz/cgraph.h>
 #include "lista.h"
+
+static const int TEST = 1;
 
 //------------------------------------------------------------------------------
 // (apontador para) estrutura de dados para representar um grafo
@@ -14,15 +16,55 @@ typedef struct grafo *grafo;
 typedef struct vertice *vertice;
 typedef struct aresta *aresta;
 
+//------------------------------------------------------------------------------
+// (apontador para) estrutura de dados para representar um grafo
+// 
+// o grafo pode ser direcionado ou não
+// 
+// o grafo tem um nome, que é uma "string"
+
+struct grafo {
+  char* nome;
+  long dir;
+  lista vert;
+  long v;
+  long a;
+};
+
+//------------------------------------------------------------------------------
+// vertice com identificador de tipo=consumidor/produto, nome, vizinhos e grau
+
+struct vertice {
+	char* nome;
+	char* tipo;
+	lista vizinhos;	
+	long grau;
+};
+
+//------------------------------------------------------------------------------
+// aresta com os dois vertices e um peso=recomendações
+
+struct aresta {
+	vertice vert;
+	long peso;
+};
+
 void imprimeGrafo(grafo g);
 noh imprimeVert(noh aux,int ares);
 noh imprimeAres(noh aux);
+
+grafo criaGrafo(char *nome, long dir, long vert, long ares);
+vertice criaVert(char *nome, long grau, char *tipo);
+aresta criaAres(vertice v, long peso);
+
 void insereVert(Agraph_t *g, grafo gr);
-vertice procuraLista(lista l, char *p);
 void constroiViz(Agraph_t *g, grafo gr);
-int comparaViz(grafo g, vertice c1, vertice c2);
-int contemVert(noh aux, vertice v);
-lista encontraDif(vertice c1, vertice c2);
+
+vertice procuraVert(lista l, char *p);
+aresta procuraAres(noh aux, vertice v);
+
+Agraph_t* transformaGrafo(grafo g);
+noh transformaVert(noh aux, Agraph_t *gr);
 
 //------------------------------------------------------------------------------
 // desaloca toda a memória usada em *g
@@ -31,7 +73,7 @@ lista encontraDif(vertice c1, vertice c2);
 //         ou 
 //         0, caso contrário
 
-int destroi_grafo(grafo g);
+int destroiGrafo(grafo g);
 
 //------------------------------------------------------------------------------
 // lê um grafo no formato dot de input
@@ -40,7 +82,7 @@ int destroi_grafo(grafo g);
 //         ou 
 //         NULL, em caso de erro 
 
-grafo le_grafo(FILE *input);  
+grafo leGrafo(FILE *input);  
 
 //------------------------------------------------------------------------------
 // escreve o grafo g em output usando o formato dot.
@@ -49,20 +91,7 @@ grafo le_grafo(FILE *input);
 //         ou 
 //         NULL, em caso de erro 
 
-grafo escreve_grafo(FILE *output, grafo g);
-
-//------------------------------------------------------------------------------
-// devolve o grafo de recomendações de g
-//
-// cada aresta {c,p} de H representa uma recomendação do produto p
-// para o consumidor c, e tem um atributo "weight" que é um inteiro
-// representando a intensidade da recomendação do produto p para o
-// consumidor c.
-//
-// cada vértice de g tem um atributo "tipo" cujo valor é 'c' ou 'p',
-// conforme o vértice seja consumidor ou produto, respectivamente
-
-grafo recomendacoes(grafo g);
+grafo escreveGrafo(FILE *output, grafo g);
 
 //------------------------------------------------------------------------------
 #endif
