@@ -10,7 +10,7 @@
 
 void imprimeGrafo(grafo g) {
 	if (TEST) printf("------------------------------------------\n");
-  printf("graph %s {\n", g->nome);
+  printf("strict graph %s {\n", g->nome);
 	if (!SIMPLIFICADO) imprimeVert(g->vert->ini,0);
 	imprimeVert(g->vert->ini,1);
 	printf("}\n");
@@ -48,7 +48,7 @@ noh imprimeAres(noh aux, vertice v) {
 		return aux;
 	aresta a = (aresta) aux->cont;
 	if (!SIMPLIFICADO) {
-		printf("  %s -- %s [peso=%ld]\n", v->nome, a->vert->nome, a->peso);
+		printf("  %s -- %s [label=%ld]\n", v->nome, a->vert->nome, a->peso);
 	} else {
 		printf("->%s[%ld]", a->vert->nome, a->peso);
 	}

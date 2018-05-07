@@ -2,7 +2,7 @@
 
 Trabalho 1 da matéria de Grafos do primeiro semestre de 2018, Universidade Federal do Paraná - UFPR.
 
-## Começando
+## Início
 
 Existe um makefile neste diretório com os seguintes comandos disponíveis:
 
@@ -16,7 +16,7 @@ Existe um makefile neste diretório com os seguintes comandos disponíveis:
 
 ## Testando
 
-É possível testar o programa com um passo a passo tendo stdout como saída.
+É possível testar o programa com um passo a passo e com um modo simplificado, os dois tendo stdout como saída.
 
 ### Como ativar os testes
 
@@ -37,10 +37,10 @@ graph recomendacoes {
   pa [tipo=p]
   pb [tipo=p]
   pc [tipo=p]
-  c2 -- pa [peso=1]
-  c3 -- pc [peso=1]
-  pa -- c2 [peso=1]
-  pc -- c3 [peso=1]
+  c2 -- pa [label=1] (nesse caso label=peso, só foi alterado para geração de imagem)
+  c3 -- pc [label=1]
+  pa -- c2 [label=1]
+  pc -- c3 [label=1]
 }
 ```
 ```
@@ -55,12 +55,23 @@ graph recomendacoes {
 }
 ```
 
-## Built With
+### Como visualizar os grafos de saída
+
+Para facilitar a correção é recomendado a utilização dos seguintes comandos:
+```
+./teste < 3.dot > rec.dot
+dot -Tps rec.dot -o outfile.ps
+```
+
+Isso irá produzir um arquivo de imagem do grafo.
+**Note que essa geração só é possível com o modo SIMPLIFICADO desativado!!!!!!**
+
+## Bibliotecas Utilizadas
 
 * [gcc](https://gcc.gnu.org/) - The GNU Compiler Collection
 * [Graphviz](https://graphviz.org/) - Graphviz is open source graph visualization software
 
-## Authors
+## Autor
 
 * **Giovanni Rosa** - [giovannirosa](https://github.com/giovannirosa)
 
@@ -68,6 +79,11 @@ graph recomendacoes {
 
 Código aberto, qualquer um pode usar para qualquer propósito.
 
-## Acknowledgments
+## Reconhecimentos
 
 * C não é produtivo
+* A biblioteca cgraph é meio bugada
+
+## Bugs
+
+Não pude utilizar a biblioteca cgraph para escrever o grafo de saída, aparentemente existe algum bug quando tento utilizar o método agnode(). Com isso, fiz a saída simular o trabalho da biblioteca.

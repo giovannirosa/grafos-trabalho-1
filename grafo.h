@@ -6,7 +6,7 @@
 #include "lista.h"
 
 static const int TEST = 0;
-static const int SIMPLIFICADO = 1;
+static const int SIMPLIFICADO = 0;
 
 //------------------------------------------------------------------------------
 // (apontador para) estrutura de dados para representar um grafo
