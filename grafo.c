@@ -9,10 +9,12 @@
 // usado para testes
 
 void imprimeGrafo(grafo g) {
-	printf("------------------------------------------\n");
-  printf("Nome: %s | Dir: %ld | Vert: %ld | Arest: %ld\n", g->nome, g->dir, g->v, g->a);
+	if (TEST) printf("------------------------------------------\n");
+  printf("graph %s {\n", g->nome);
+	if (!SIMPLIFICADO) imprimeVert(g->vert->ini,0);
 	imprimeVert(g->vert->ini,1);
-	printf("------------------------------------------\n");
+	printf("}\n");
+	if (TEST) printf("------------------------------------------\n");
 }
 
 //------------------------------------------------------------------------------
@@ -23,10 +25,17 @@ noh imprimeVert(noh aux, int ares) {
 	if (!aux)
 		return aux;
 	vertice v = (vertice) aux->cont;
-	printf("%s->", v->nome);
-	if (ares)
-		imprimeAres(v->vizinhos->ini);
-	printf("\n");
+	if (!SIMPLIFICADO) {
+		if (!ares)
+			printf("  %s [tipo=%s]\n", v->nome,v->tipo);
+		if (ares)
+			imprimeAres(v->vizinhos->ini,v);
+	} else {
+		printf("  %s", v->nome);
+		if (ares)
+			imprimeAres(v->vizinhos->ini,v);
+		printf("\n");
+	}
 	return imprimeVert(aux->prox,ares);
 }
 
@@ -34,12 +43,16 @@ noh imprimeVert(noh aux, int ares) {
 // imprime as arestas com seus parâmetros e informações relevantes
 // usado para testes
 
-noh imprimeAres(noh aux) {
+noh imprimeAres(noh aux, vertice v) {
 	if (!aux)
 		return aux;
 	aresta a = (aresta) aux->cont;
-	if (TEST) printf("%s(%ld)->", a->vert->nome, a->peso);
-	return imprimeAres(aux->prox);
+	if (!SIMPLIFICADO) {
+		printf("  %s -- %s [peso=%ld]\n", v->nome, a->vert->nome, a->peso);
+	} else {
+		printf("->%s[%ld]", a->vert->nome, a->peso);
+	}
+	return imprimeAres(aux->prox,v);
 }
 
 //------------------------------------------------------------------------------
@@ -191,6 +204,7 @@ grafo leGrafo(FILE *input) {
   if (TEST) imprimeGrafo(gr);
 
 	agclose(g);
+	agfree(g,NULL);
   if (TEST) printf("Grafo lido.\n");
 
 	return gr;
@@ -208,40 +222,47 @@ grafo leGrafo(FILE *input) {
 //         NULL, em caso de erro 
 
 grafo escreveGrafo(FILE *output, grafo g) {
-  Agraph_t *gr = transformaGrafo(g);
-  agwrite(gr,output);
-  if (TEST) imprimeGrafo(g);
+  // Agraph_t *gr = transformaGrafo(g);
+  // agwrite(gr,output);
+  imprimeGrafo(g);
   return g;
 }
 
+//------------------------------------------------------------------------------
+// transforma o grafo da estrutura grafo para a biblioteca cgraph
+
 Agraph_t* transformaGrafo(grafo g) {
-	Agraph_t *gr = agopen((char*)"recomendacoes", Agundirected, NULL);
+	Agraph_t *gr = agopen((char*)"recomendacoes", Agstrictundirected, NULL);
 
 	imprimeGrafo(g);
 	transformaVert(g->vert->ini,gr);
 
-	// for (noh aux = g->vert->ini; aux; aux = aux->prox) {
-	// 	vertice v = (vertice) aux->cont;
-	// 	for (noh aux2 = v->vizinhos->ini; aux2; aux2 = aux2->prox) {
-	// 		aresta a = (aresta) aux2->cont;
+	for (noh aux = g->vert->ini; aux; aux = aux->prox) {
+		vertice v = (vertice) aux->cont;
+		for (noh aux2 = v->vizinhos->ini; aux2; aux2 = aux2->prox) {
+			aresta a = (aresta) aux2->cont;
 
-	// 		Agnode_t *x = agnode(gr,v->nome,FALSE);
-	// 		Agnode_t *y = agnode(gr,a->vert->nome,FALSE);
+			Agnode_t *x = agnode(gr,v->nome,TRUE);
+			Agnode_t *y = agnode(gr,a->vert->nome,TRUE);
 
-	// 		printf("criando aresta %s -> %s\n", v->nome,a->vert->nome);
-	// 		agedge(gr,x,y,NULL,TRUE);
-	// 	}
-	// }
+			printf("criando aresta %s -> %s\n", v->nome,a->vert->nome);
+			agedge(gr,x,y,NULL,TRUE);
+
+		}
+	}
 
 	return gr;
 }
+
+//------------------------------------------------------------------------------
+// transforma os vertices da estrutura grafo para a biblioteca cgraph
 
 noh transformaVert(noh aux, Agraph_t *gr) {
 	if (!aux)
 		return aux;
 	vertice v = (vertice) aux->cont;
 	printf("criando vert %s\n", v->nome);
-	agnode(gr,v->nome,TRUE);
+	agnode(gr,v->nome,TRUE); // EXISTE ALGUM BUG NESSE METODO, NAO PUDE UTILIZAR!!!!!!!!!!!!
 	return transformaVert(aux->prox,gr);
 }
 
@@ -257,7 +278,8 @@ noh transformaVert(noh aux, Agraph_t *gr) {
 //         0, caso contrário
 
 int destroiGrafo(grafo g) {
-
+	liberaLista(g->vert);
+	free(g);
   return 0;
 }
 

@@ -1,7 +1,10 @@
 #include "recomenda.h"
 #include "grafo.h"
 
+//------------------------------------------------------------------------------
+// encontra o tamanho da intersecção entre a vizinhança dos dois vertices
 // Γ(c1) ∩ Γ(c2)
+
 int comparaViz(grafo g, vertice c1, vertice c2) {
 	// printf("Intersec %s com %s\n", c1->nome, c2->nome);
 	int intersec = 0;
@@ -16,7 +19,10 @@ int comparaViz(grafo g, vertice c1, vertice c2) {
 	return intersec;
 }
 
+//------------------------------------------------------------------------------
+// encontra a diferença entre a vizinhança dos dois vertices
 // Γ(c1) - Γ(c2)
+
 lista encontraDif(vertice c1, vertice c2) {
 	// printf("Dif %s com %s\n", c1->nome, c2->nome);
 	lista dif = iniciaLista();
@@ -28,6 +34,9 @@ lista encontraDif(vertice c1, vertice c2) {
 	}
 	return dif;
 }
+
+//------------------------------------------------------------------------------
+// copia os vertices de um grafo existente para um novo grafo
 
 grafo copiaGrafo(grafo orig) {
   grafo dest = criaGrafo((char*)"recomendacoes",0,orig->v,0);
@@ -74,8 +83,14 @@ grafo recomendacoes(grafo gr) {
       if (i >= l->tam) {
         if (TEST) imprimeVert(l->ini,0);
         vertice v = procuraVert(rec->vert,c2->nome);
-        adicionaAres(l->ini,v);
+        adicionaAres(l->ini,v,rec);
         rec->a += l->tam;
+        // for (noh aux3 = l->ini; aux3; aux3 = aux3->prox) {
+        //   vertice paux = (vertice)aux3->cont;
+        //   vertice p = procuraVert(rec->vert,paux->nome);
+        //   insereAres(p,v);
+        //   rec->a++;
+        // }
       }
     }
   }
@@ -83,18 +98,26 @@ grafo recomendacoes(grafo gr) {
   return rec;
 }
 
-noh adicionaAres(noh aux, vertice v) {
+//------------------------------------------------------------------------------
+// adiciona aresta de recomendação ou aumenta o peso se já existir
+
+noh adicionaAres(noh aux, vertice v, grafo rec) {
   if (!aux)
     return aux;
+  vertice paux = (vertice) aux->cont;
+  vertice p = procuraVert(rec->vert,paux->nome);
+  insereAres(v,p);
+  insereAres(p,v);
+  return adicionaAres(aux->prox,v,rec);
+}
 
-  vertice p = (vertice) aux->cont;
-  aresta ares = procuraAres(v->vizinhos->ini,p);
+void insereAres(vertice v1, vertice v2) {
+  aresta ares = procuraAres(v1->vizinhos->ini,v2);
   if (!ares) {
-    ares = criaAres(p,1);
-    insereLista(v->vizinhos, ares);
+    ares = criaAres(v2,1);
+    if (TEST) printf("Adiciona aresta %s -> %s\n", v1->nome, ares->vert->nome);
+    insereLista(v1->vizinhos, ares);
   } else {
     ares->peso++;
   }
-
-  return adicionaAres(aux->prox,v);
 }

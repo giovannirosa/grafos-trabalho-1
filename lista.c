@@ -15,7 +15,7 @@ lista iniciaLista(void) {
 void liberaLista(lista l) { 
   noh aux;
   while((aux = l->fim)) {
-    l->fim = l->fim->ant;
+    l->fim = aux->ant;
     free(aux);
   }
   free(l);

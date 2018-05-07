@@ -47,3 +47,5 @@ teste : teste.o recomenda.o grafo.o lista.o
 #------------------------------------------------------------------------------
 clean :
 	$(RM) teste *.o
+
+rebuild: clean all
